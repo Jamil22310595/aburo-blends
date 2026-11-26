@@ -279,8 +279,16 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
   </div>
 </main>
 </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
 <script>
 (function () {
+    
+    var supabaseClient = window.supabase.createClient(
+  "https://eyhrygjopzzqgykekpom.supabase.co",
+  "sb_publishable_hyDuqX_OCRaDjsGis-cXxg_sXmA0zzI"
+);
+    
   var CONFIG = {
     currency: "₺",
     step: 45,                 // minutes between slot starts
@@ -289,8 +297,8 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
     storageKey: "aburo-bookings-v1",
 
     services: [
-      { key: "classic", name: "The Classic", desc: "Precision cut, edges lined, hot towel finish.", duration: 20-30, price: 450 },
-      { key: "combo", name: "The Combo", desc: "Precision cut plus beard trim, shaped and oiled.", duration: 30-45, price: 600 },
+       { key: "classic", name: "The Classic", desc: "Precision cut, edges lined.", duration: 30, price: 450 },
+       { key: "combo", name: "The Combo", desc: "Precision cut plus beard trim, shaped and oiled.", duration: 45, price: 600 }, 
       { key: "subscription", name: "The Subscription", desc: "Four cuts and beard trims a month.", duration: 45, price: 1600 }
     ],
 
@@ -335,16 +343,41 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
   function money(v) { return CONFIG.currency + v; }
 
   /* ---------- storage: every booking lives here ---------- */
-  function readBookings() {
-    try {
-      var raw = localStorage.getItem(CONFIG.storageKey);
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) { return []; }
-  }
-  function writeBookings(list) {
-    localStorage.setItem(CONFIG.storageKey, JSON.stringify(list));
-  }
+  var onlineBookings = [];
 
+async function loadBookings(dateStr) {
+  try {
+    var response = await fetch(
+      "https://eyhrygjopzzqgykekpom.supabase.co/functions/v1/booking-availability",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "sb_publishable_hyDuqX_OCRaDjsGis-cXxg_sXmA0zzI"
+        },
+        body: JSON.stringify({ date: dateStr })
+      }
+    );
+
+    if (!response.ok) throw new Error("Could not load bookings");
+
+    var data = await response.json();
+
+    onlineBookings = (data.bookings || []).map(function (b) {
+      return {
+        date: dateStr,
+        start: Number(b.start_time.slice(0, 2)) * 60 + Number(b.start_time.slice(3, 5)),
+        end: Number(b.end_time.slice(0, 2)) * 60 + Number(b.end_time.slice(3, 5))
+      };
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    alert("Unable to load available times. Please try again.");
+    return false;
+  }
+}
   /* ---------- availability ---------- */
   function slotsFor(dateStr, duration) {
     var day = CONFIG.hours[fromIso(dateStr).getDay()];
@@ -364,11 +397,11 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
   }
 
   function isTaken(dateStr, start, duration) {
-    var end = start + duration;
-    return readBookings().some(function (b) {
-      return b.date === dateStr && b.start < end && b.end > start;
-    });
-  }
+  var end = start + duration;
+  return onlineBookings.some(function (b) {
+    return b.date === dateStr && b.start < end && b.end > start;
+  });
+}
 
   function freeSlots(dateStr, duration) {
     return slotsFor(dateStr, duration).filter(function (start) {
@@ -415,13 +448,17 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
       b.innerHTML = "<b>" + DAY_NAMES[d.getDay()] + "</b><i>" + d.getDate() + "</i><small>" +
         (open ? (free ? free + " free" : "full") : "closed") + "</small>";
       (function (k) {
-        b.onclick = function () {
-          state.date = k;
-          state.start = null;
-          renderDays();
-          renderTimes();
-          go(3);
-        };
+        b.onclick = async function () {
+  state.date = k;
+  state.start = null;
+
+  var loaded = await loadBookings(k);
+  if (!loaded) return;
+
+  renderDays();
+  renderTimes();
+  go(3);
+};
       })(key);
       box.appendChild(b);
     }
@@ -481,7 +518,7 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
   }
 
   /* ---------- confirm ---------- */
-  function confirmBooking() {
+  async function confirmBooking() {
     var err = $("bk-error");
     err.textContent = "";
     var name = $("bk-name").value.trim();
@@ -504,15 +541,24 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
       return;
     }
 
-    var list = readBookings();
-    var ref = "AB-" + Math.random().toString(36).slice(2, 8).toUpperCase();
-    list.push({
-      ref: ref, date: state.date, start: state.start, end: end,
-      service: s.name, price: s.price,
-      name: name, phone: phone, area: area, notes: notes,
-      created: new Date().toISOString()
-    });
-    writeBookings(list);
+    var { data: ref, error: bookingError } = await supabaseClient.rpc(
+  "create_booking",
+  {
+    p_service_key: s.key,
+    p_customer_name: name,
+    p_customer_phone: phone,
+    p_booking_date: state.date,
+    p_start_time: label(state.start),
+    p_area: area,
+    p_notes: notes || null
+  }
+);
+
+if (bookingError) {
+  console.error("Booking error:", bookingError);
+  err.textContent = bookingError.message || "Booking failed. Please try again.";
+  return;
+}
 
     var d = fromIso(state.date);
     $("bk-ref").textContent = ref;
@@ -548,12 +594,7 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
   };
 
   // Keep other open tabs honest: if someone books elsewhere, re-check this one.
-  window.addEventListener("storage", function (e) {
-    if (e.key !== CONFIG.storageKey) return;
-    if (state.date) renderTimes();
-    if (state.date) renderDays();
-  });
-
+  
   renderServices();
   go(1);
 })();
