@@ -15,9 +15,7 @@
       color: white;
     }
 
-    h1 {
-      color: #c49a55;
-    }
+    h1 { color: #c49a55; }
 
     button {
       padding: 12px 18px;
@@ -36,9 +34,7 @@
       border-radius: 8px;
     }
 
-    #message {
-      color: #c49a55;
-    }
+    #message { color: #c49a55; }
   </style>
 </head>
 
@@ -73,6 +69,7 @@
       }
 
       message.textContent = "Loading bookings...";
+      bookingsBox.innerHTML = "";
 
       const { data, error } = await supabaseClient.functions.invoke(
         "admin-bookings",
@@ -97,8 +94,6 @@
 
       message.textContent = bookings.length + " booking(s) found.";
 
-      bookingsBox.innerHTML = "";
-
       bookings.forEach(booking => {
         const item = document.createElement("div");
         item.className = "booking";
@@ -113,10 +108,30 @@
           <p><strong>Area:</strong> ${booking.area || "Not provided"}</p>
           <p><strong>Notes:</strong> ${booking.notes || "None"}</p>
           <p><strong>Reference:</strong> ${booking.booking_ref}</p>
+          <button onclick="cancelBooking(${booking.id})">CANCEL BOOKING</button>
         `;
 
         bookingsBox.appendChild(item);
       });
+    }
+
+    async function cancelBooking(bookingId) {
+      const confirmed = confirm("Are you sure you want to cancel this booking?");
+
+      if (!confirmed) return;
+
+      const { error } = await supabaseClient
+        .from("bookings")
+        .delete()
+        .eq("id", bookingId);
+
+      if (error) {
+        alert("Could not cancel booking: " + error.message);
+        return;
+      }
+
+      alert("Booking cancelled. The time slot is now available.");
+      loadBookings();
     }
 
     document.getElementById("logout").onclick = async function () {
