@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABURO BLENDS | Admin Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .box {
+      width: 90%;
+      max-width: 380px;
+      padding: 30px;
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 12px;
+    }
+    h1 { text-align: center; }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background: #c49a55;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #message { color: #ff7777; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>ABURO BLENDS</h1>
+    <h2>Admin Login</h2>
+
+    <input id="email" type="email" placeholder="Admin email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button id="login">LOGIN</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://eyhrygjopzzqgykekpom.supabase.co",
+      "sb_publishable_hyDuqX_OCRaDjsGis-cXxg_sXmA0zzI"
+    );
+
+    document.getElementById("login").onclick = async function () {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      message.textContent = "Signing in...";
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      if (data.user.email !== "j4m1lhus@gmail.com") {
+        await supabaseClient.auth.signOut();
+        message.textContent = "Access denied.";
+        return;
+      }
+
+      window.location.href = "dashboard.html";
+    };
+  </script>
+</body>
+</html>
