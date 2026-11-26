@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>ABURO BLENDS — Fresh Cuts. Real Culture.</title>
+    <style>
+:root{--ink:#111;--paper:#f2f0e9;--orange:#ff5a1f;--muted:#aaa79f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}.wrap{width:min(1180px,90%);margin:auto}
+header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff22}
+.logo{font-weight:950;letter-spacing:-2px;font-size:25px}.logo span{color:var(--orange)}
+nav{display:flex;gap:30px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.nav-cta,.btn{display:inline-block;background:var(--orange);color:#111;padding:14px 20px;font-weight:900;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;border:0;cursor:pointer}
+.menu{display:none;background:none;color:white;border:0;font-size:25px}
+.hero{min-height:650px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:30px;padding:65px 0 75px}
+.kicker{color:var(--orange);font-size:11px;letter-spacing:3px;font-weight:900;text-transform:uppercase}
+h1{font-size:clamp(64px,9vw,120px);line-height:.82;letter-spacing:-8px;margin:24px 0 25px;font-weight:1000}
+h1 em{font-style:normal;color:var(--orange)}
+.hero p{max-width:420px;color:#c3c0b8;line-height:1.7;font-size:15px}
+.actions{display:flex;gap:12px;align-items:center;margin-top:30px}.btn.outline{background:transparent;color:var(--paper);border:1px solid #ffffff66}
+.hero-art{height:500px;position:relative;overflow:hidden;background:linear-gradient(145deg,#292929,#101010 65%);border:1px solid #ffffff22}
+.hero-art:before{content:"";position:absolute;width:390px;height:390px;border:65px solid var(--orange);border-radius:50%;right:-95px;top:40px;opacity:.95}
+.hero-art:after{content:"AB";position:absolute;font-weight:1000;font-size:clamp(180px,29vw,360px);letter-spacing:-30px;left:20px;bottom:-42px;color:var(--paper);line-height:1}
+.art-label{position:absolute;z-index:2;top:24px;left:25px;font-size:10px;letter-spacing:2px;font-weight:900}
+.art-stamp{position:absolute;z-index:2;right:20px;bottom:25px;background:var(--paper);color:#111;padding:12px 15px;font-weight:1000;font-size:11px;transform:rotate(-5deg)}
+.ticker{overflow:hidden;background:var(--orange);color:#111;white-space:nowrap;padding:16px 0;font-size:13px;font-weight:1000;letter-spacing:2px}
+.ticker span{padding:0 26px}
+section{padding:100px 0}.section-top{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:38px}
+h2{font-size:clamp(40px,6vw,72px);line-height:.9;letter-spacing:-4px;margin:12px 0 0}
+.section-top p{max-width:330px;color:#aaa;line-height:1.6;font-size:14px}
+.services{background:var(--paper);color:#111}.services .kicker{color:#e94c17}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid #1113;padding:28px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.card .num{font-size:11px;color:#777;font-weight:900;letter-spacing:2px}.card h3{font-size:28px;letter-spacing:-1px;margin:30px 0 8px}.card p{font-size:13px;line-height:1.6;color:#666;margin:0}.card .arrow{font-size:24px;color:#e94c17;align-self:flex-end}
+.manifesto{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.manifesto-box{min-height:350px;background:var(--orange);color:#111;padding:35px;display:flex;flex-direction:column;justify-content:space-between}
+.manifesto-box strong{font-size:clamp(55px,8vw,100px);line-height:.8;letter-spacing:-7px}
+.manifesto-copy p{color:#bbb;line-height:1.8;font-size:15px;max-width:480px}
+.manifesto-copy h2{margin-bottom:25px}
+.values{display:flex;gap:25px;flex-wrap:wrap;margin-top:30px}.values b{font-size:11px;letter-spacing:1px;text-transform:uppercase;border-top:1px solid #555;padding-top:12px;min-width:120px}
+.gallery{background:#1b1b1b}.gallery-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:12px}
+.tile{height:260px;background:linear-gradient(145deg,#353535,#161616);position:relative;overflow:hidden;padding:20px;display:flex;align-items:end}
+.tile:before{content:"";position:absolute;width:190px;height:190px;border:30px solid var(--orange);border-radius:50%;right:-45px;top:-45px;opacity:.75}
+.tile:nth-child(2):before{border-radius:0;transform:rotate(35deg);border-width:20px}
+.tile:nth-child(3):before{width:130px;height:240px;border-radius:80px;right:30px;top:20px}
+.tile span{position:relative;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.booking{background:var(--orange);color:#111}.booking .kicker{color:#111}.booking-inner{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+.booking h2{max-width:500px}.booking p{line-height:1.7;max-width:400px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input,select,textarea{width:100%;padding:16px;background:#ffffffd9;border:0;color:#111;font:inherit;font-size:13px}
+textarea{grid-column:1/-1;min-height:90px;resize:vertical}
+form button{grid-column:1/-1;background:#111;color:white;padding:17px;border:0;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+#form-note{grid-column:1/-1;font-size:12px;margin:0}
+footer{padding:35px 0;display:flex;justify-content:space-between;gap:20px;align-items:center;color:#aaa;font-size:11px;letter-spacing:1px}
+footer strong{font-size:19px;color:white;letter-spacing:-1px}
+
+:root{--ink:#111;--paper:#f2f0e9;--orange:#ff5a1f;--muted:#aaa79f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helvetica,sans-serif}
+
+.demo{padding:60px 6%}
+.demo p{color:#aaa79f;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin:0 0 18px}
+
+.bk{padding:70px 0}
+.bk-wrap{width:min(1100px,90%);margin:auto}
+.bk-kicker{color:var(--orange);font-size:11px;letter-spacing:3px;font-weight:900;text-transform:uppercase;margin:0}
+.bk-title{font-size:clamp(38px,7vw,68px);line-height:.88;letter-spacing:-3px;margin:14px 0 14px;font-weight:1000;text-transform:uppercase}
+.bk-lede{color:#c3c0b8;line-height:1.7;font-size:14px;max-width:460px;margin:0}
+
+.bk-steps{display:flex;gap:18px;list-style:none;padding:0;margin:28px 0 20px;font-size:10px;letter-spacing:2px;font-weight:900;text-transform:uppercase;color:#5f5d59}
+.bk-steps li.on{color:var(--orange)}
+.bk-steps li.done{color:#8d8b85}
+
+.bk-panel{display:none;border-top:1px solid #ffffff22;padding-top:22px}
+.bk-panel.on{display:block}
+.bk-h3{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:#8d8b85;font-weight:900;margin:0 0 14px}
+
+.bk-grid{display:grid;gap:10px}
+.bk-services{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+
+.bk-pick{background:#181818;border:1px solid #ffffff1f;color:inherit;text-align:left;padding:18px;cursor:pointer;font:inherit;transition:border-color .15s,background .15s}
+.bk-pick:hover{border-color:#ffffff55}
+.bk-pick.sel{border-color:var(--orange);background:#21120c}
+.bk-pick h4{margin:0 0 6px;font-size:17px;letter-spacing:-.4px}
+.bk-pick p{margin:0;font-size:12px;color:#9c9a94;line-height:1.5}
+.bk-pick .bk-price{display:block;margin-top:10px;color:var(--orange);font-weight:900;font-size:13px}
+
+.bk-days{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}
+.bk-day{background:#181818;border:1px solid #ffffff1f;color:inherit;padding:10px 4px;cursor:pointer;font:inherit;text-align:center}
+.bk-day b{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8d8b85;font-weight:900}
+.bk-day i{display:block;font-style:normal;font-size:19px;font-weight:900;margin:3px 0}
+.bk-day small{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#6f6d68}
+.bk-day.sel{border-color:var(--orange);background:#21120c}
+.bk-day:disabled{opacity:.3;cursor:not-allowed}
+
+.bk-times{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.bk-slot{background:#181818;border:1px solid #ffffff1f;color:inherit;padding:12px 4px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.bk-slot:hover:enabled{border-color:#ffffff55}
+.bk-slot.sel{border-color:var(--orange);background:var(--orange);color:#111}
+.bk-slot:disabled{opacity:.28;cursor:not-allowed;text-decoration:line-through}
+
+.bk-note{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7e7c77;margin:16px 0 0}
+
+.bk-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk-fields .bk-full{grid-column:1/-1}
+.bk-fields label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8d8b85;font-weight:900;margin-bottom:6px}
+.bk-fields input,.bk-fields select,.bk-fields textarea{width:100%;padding:14px;background:#ffffffd9;border:0;color:#111;font:inherit;font-size:13px}
+.bk-fields textarea{min-height:80px;resize:vertical}
+
+.bk-btn{background:var(--orange);color:#111;border:0;padding:15px 22px;font:inherit;font-weight:900;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+.bk-btn.ghost{background:transparent;color:var(--paper);border:1px solid #ffffff55}
+.bk-btn:disabled{opacity:.45;cursor:not-allowed}
+.bk-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.bk-err{color:#ff9a7a;font-size:12px;margin:12px 0 0}
+
+.bk-summary{border:1px solid #ffffff1f;padding:16px;margin-bottom:18px;font-size:13px;line-height:1.9;color:#c3c0b8}
+.bk-summary b{color:var(--paper)}
+
+.bk-done{background:var(--orange);color:#111;padding:26px}
+.bk-done h4{margin:0 0 6px;font-size:22px;letter-spacing:-.8px;text-transform:uppercase}
+.bk-done p{margin:0;font-size:13px;line-height:1.6}
+.bk-done .bk-ref{font-family:monospace;font-size:24px;font-weight:900;letter-spacing:3px;margin:14px 0}
+.bk-done .bk-btn{background:#111;color:var(--paper)}
+
+.ticker{overflow:hidden;background:var(--orange,#ff5a1f);color:#111;padding:16px 0;position:relative}
+.ticker-track{display:flex;width:max-content;animation:ticker-move 28s linear infinite}
+.ticker-track span{display:inline-block;padding:0 26px;font-size:13px;font-weight:1000;letter-spacing:2px;white-space:nowrap}
+.ticker-track span::after{content:"✳";margin-left:52px}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes ticker-move{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){
+  .ticker-track{animation:none;overflow-x:auto}
+}
+
+@media(max-width:640px){
+  .bk{padding:55px 0}
+  .bk-fields{grid-template-columns:1fr}
+  .bk-steps{gap:12px;font-size:9px}
+    }
+
+@media(max-width:760px){
+    header{height:70px}
+    nav{display:none;position:absolute;top:70px;left:0;right:0;background:#171717;padding:25px 5%;flex-direction:column;z-index:5}
+    .nav-cta{display:none}
+    .menu{display:block}
+    .hero{grid-template-columns:1fr;padding:55px 0}
+    .hero-art{height:340px}
+    h1{letter-spacing:-5px}
+    .section-top,.manifesto,.booking-inner{grid-template-columns:1fr;display:grid;gap:20px}
+    .cards{grid-template-columns:1fr}
+    .card{min-height:175px}
+    .gallery-grid{grid-template-columns:1fr 1fr}
+    .tile:first-child{grid-column:1/-1}
+    .tile{height:190px}
+    section{padding:70px 0}
+    footer{flex-direction:column;align-items:flex-start}
+    }
+</style>
+</head>
+<body>
+    <div class="demo">
+  <p>Preview — this is the strip</p>
+</div>
+<main>
+<section class="hero wrap">
+  <div>
+    <div class="kicker">Barbering / Street culture / Community</div>
+    <h1>FRESH<br>CUTS.<br><em>REAL</em><br>CULTURE.</h1>
+    <p>Pull up for the blend. Stay for the energy. ABURO BLENDS is your spot for sharp cuts, good people and unapologetic self-expression.</p>
+    <div class="actions"><a class="btn" href="#booking">Book your cut ↗</a><a class="btn outline" href="#culture">Discover the culture</a></div>
+  </div>
+  <div class="hero-art" aria-label="Abstract ABURO BLENDS street-inspired graphic">
+    <div class="art-label">ABURO BLENDS — EST. 20XX</div>
+    <div class="art-stamp">YOUR CITY. YOUR PEOPLE.</div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>SCULPTING</span><span>RAZOR LINE-UPS</span><span>SKIN FADES</span><span>BEARD SHAPING</span><span>I COME TO YOU</span>
+    <span>SCULPTING</span><span>RAZOR LINE-UPS</span><span>SKIN FADES</span><span>BEARD SHAPING</span></span><span>I COME TO YOU</span>
+  </div>
+</div>
+
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-top"><div><div class="kicker">01 / The line-up</div><h2>YOUR CUT.<br>YOUR CALL.</h2></div><p>From clean fades to a full reset, come through and leave feeling like yourself — only sharper.</p></div>
+    <div class="cards">
+      <article class="card"><div class="num">01 — THE ESSENTIAL</div><div><h3>Classic Cut</h3><p>A fresh shape-up and a clean finish.<br><h5>₺450</h5></p></div><div class="arrow">↗</div></article>
+      <article class="card"><div class="num">02 —  SUBSCRIPTION </div><div><h3>Fade &amp; Blend</h3><p>Precision, smooth transitions and attention to every detail.<br>4 haircuts per month<br><h5>₺1600</h5></p></div><div class="arrow">↗</div></article>
+      <article class="card"><div class="num">03 — THE COMBO</div><div><h3>Precision haircut, Beard trim & shaping</h3><p>A complete refresh, from the hairline to the beard line.<br><h5>₺600</h5></p></div><div class="arrow">↗</div></article>
+    </div>
+  </div>
+</section>
+
+<section id="culture">
+  <div class="wrap manifesto">
+    <div class="manifesto-box"><span class="kicker">ABURO BLENDS / THE CODE</span><strong>NOT JUST<br>A BARBER<br>SHOP.</strong><span>BUILT ON STYLE. GROUNDED IN COMMUNITY.</span></div>
+    <div class="manifesto-copy"><div class="kicker">02 / The culture</div><h2>COME AS YOU ARE.<br>LEAVE WITH A FRESH TAKE.</h2><p>We believe a barbershop should feel like a local landmark — a place to catch up, trade ideas, discover new sounds and show up as yourself. The cut brings us together. The community makes it matter.</p><div class="values"><b>Good energy</b><b>Real connection</b><b>Individual style</b></div></div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-top"><div><div class="kicker">03 / The atmosphere</div><h2>THE VIBE<br>SPEAKS.</h2></div><p>Street style, sharp details and familiar faces. This is more than a chair — it's your corner of the culture.</p></div>
+    <div class="gallery-grid"><div class="tile"><span>01 / The craft</span></div><div class="tile"><span>02 / The fits</span></div><div class="tile"><span>03 / The people</span></div></div>
+  </div>
+</section>
+
+<main class="bk" id="booking">
+  <div class="bk-wrap">
+    <p class="bk-kicker">04 / Pull up</p>
+    <h2 class="bk-title">Lock a slot</h2>
+    <p class="bk-lede">Pick your cut, then a day and a time. The slot is held the moment you confirm and disappears for everyone else, so nobody ever gets double booked.</p>
+
+    <ol class="bk-steps" id="bk-steps">
+      <li>01 Cut</li>
+      <li>02 Day</li>
+      <li>03 Time</li>
+      <li>04 Details</li>
+    </ol>
+
+    <!-- STEP 1 -->
+    <section class="bk-panel on" id="bk-step-1">
+      <h3 class="bk-h3">Choose your cut</h3>
+      <div class="bk-grid bk-services" id="bk-services"></div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="bk-panel" id="bk-step-2">
+      <h3 class="bk-h3">Pick a day</h3>
+      <div class="bk-grid bk-days" id="bk-days"></div>
+      <p class="bk-note" id="bk-day-note"></p>
+      <div class="bk-row"><button class="bk-btn ghost" type="button" data-back="1">Back</button></div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="bk-panel" id="bk-step-3">
+      <h3 class="bk-h3">Pick a time</h3>
+      <div class="bk-grid bk-times" id="bk-times"></div>
+      <p class="bk-note">Crossed out times are already taken.</p>
+      <div class="bk-row"><button class="bk-btn ghost" type="button" data-back="2">Back</button></div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="bk-panel" id="bk-step-4">
+      <h3 class="bk-h3">Your details</h3>
+      <div class="bk-summary" id="bk-summary"></div>
+      <div class="bk-fields">
+        <div><label for="bk-name">Your name</label><input id="bk-name" autocomplete="name" placeholder="Your name"></div>
+        <div><label for="bk-phone">Phone</label><input id="bk-phone" type="tel" autocomplete="tel" placeholder="05xx xxx xxxx"></div>
+        <div class="bk-full">
+          <label for="bk-area">Your area</label>
+          <select id="bk-area"></select>
+        </div>
+        <div class="bk-full"><label for="bk-notes">Notes (optional)</label><textarea id="bk-notes" placeholder="Building, floor, anything I should know"></textarea></div>
+      </div>
+      <p class="bk-err" id="bk-error"></p>
+      <div class="bk-row">
+        <button class="bk-btn ghost" type="button" data-back="3">Back</button>
+        <button class="bk-btn" type="button" id="bk-confirm">Confirm booking</button>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="bk-panel" id="bk-step-5">
+      <div class="bk-done">
+        <h4>Slot locked</h4>
+        <p>See you then. Save your reference:</p>
+        <div class="bk-ref" id="bk-ref"></div>
+        <p id="bk-done-detail"></p>
+        <div class="bk-row"><button class="bk-btn" type="button" id="bk-again">Book another cut</button></div>
+      </div>
+    </section>
+  </div>
+</main>
+</main>
+<script>
+(function () {
+  var CONFIG = {
+    currency: "₺",
+    step: 45,                 // minutes between slot starts
+    leadMinutes: 15,          // how soon from now a slot can start
+    daysAhead: 21,            // how far ahead people can book
+    storageKey: "aburo-bookings-v1",
+
+    services: [
+      { key: "classic", name: "The Classic", desc: "Precision cut, edges lined, hot towel finish.", duration: 20-30, price: 450 },
+      { key: "combo", name: "The Combo", desc: "Precision cut plus beard trim, shaped and oiled.", duration: 30-45, price: 600 },
+      { key: "subscription", name: "The Subscription", desc: "Four cuts and beard trims a month.", duration: 45, price: 1600 }
+    ],
+
+    areas: ["Gönyeli", "Yenikent", "Küçük", "Metehan", "Göçmenköy", "Other"],
+
+    // 0 = Sunday ... 6 = Saturday. null = closed.
+    hours: [
+      { open: "10:00", close: "23:00" }, // Sunday
+      null,// Monday   closed 
+      { open: "13:00", close: "23:00" },// Tuesday 
+      { open: "13:00", close: "23:00" },// Wednesday 
+      { open: "13:00", close: "23:00" }, // Thursday
+      { open: "08:30", close: "13:00" }, // Friday
+      { open: "10:00", close: "23:59" }  // Saturday
+    ]
+  };
+
+  var DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { service: null, date: null, start: null };
+
+  /* ---------- helpers ---------- */
+  function toMin(hhmm) {
+    var p = hhmm.split(":");
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+  function label(min) {
+    var h = Math.floor(min / 60), m = min % 60;
+    var suffix = h >= 12 ? "PM" : "AM";
+    var hh = h % 12 === 0 ? 12 : h % 12;
+    return hh + ":" + String(m).padStart(2, "0") + " " + suffix;
+  }
+  function iso(d) {
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+  function fromIso(s) {
+    var p = s.split("-");
+    return new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+  }
+  function money(v) { return CONFIG.currency + v; }
+
+  /* ---------- storage: every booking lives here ---------- */
+  function readBookings() {
+    try {
+      var raw = localStorage.getItem(CONFIG.storageKey);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function writeBookings(list) {
+    localStorage.setItem(CONFIG.storageKey, JSON.stringify(list));
+  }
+
+  /* ---------- availability ---------- */
+  function slotsFor(dateStr, duration) {
+    var day = CONFIG.hours[fromIso(dateStr).getDay()];
+    if (!day) return [];
+    var open = toMin(day.open), close = toMin(day.close);
+    var out = [];
+    for (var t = open; t + duration <= close; t += CONFIG.step) out.push(t);
+    return out;
+  }
+
+  function isPast(dateStr, start) {
+    var now = new Date();
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    if (dateStr < iso(now)) return true;
+    if (dateStr === iso(now)) return start < nowMin + CONFIG.leadMinutes;
+    return false;
+  }
+
+  function isTaken(dateStr, start, duration) {
+    var end = start + duration;
+    return readBookings().some(function (b) {
+      return b.date === dateStr && b.start < end && b.end > start;
+    });
+  }
+
+  function freeSlots(dateStr, duration) {
+    return slotsFor(dateStr, duration).filter(function (start) {
+      return !isPast(dateStr, start) && !isTaken(dateStr, start, duration);
+    });
+  }
+
+  /* ---------- rendering ---------- */
+  function renderServices() {
+    var box = $("bk-services");
+    box.innerHTML = "";
+    CONFIG.services.forEach(function (s) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "bk-pick" + (state.service && state.service.key === s.key ? " sel" : "");
+      b.innerHTML = "<h4>" + s.name + "</h4><p>" + s.desc + "</p>" +
+        "<span class='bk-price'>" + money(s.price) + " · " + s.duration + " min</span>";
+      b.onclick = function () {
+        state.service = s;
+        state.date = null;
+        state.start = null;
+        renderServices();
+        renderDays();
+        go(2);
+      };
+      box.appendChild(b);
+    });
+  }
+
+  function renderDays() {
+    var box = $("bk-days");
+    box.innerHTML = "";
+    var today = new Date();
+    for (var i = 0; i < CONFIG.daysAhead; i++) {
+      var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+      var key = iso(d);
+      var open = !!CONFIG.hours[d.getDay()];
+      var free = open && state.service ? freeSlots(key, state.service.duration).length : 0;
+
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "bk-day" + (state.date === key ? " sel" : "");
+      b.disabled = !open || free === 0;
+      b.innerHTML = "<b>" + DAY_NAMES[d.getDay()] + "</b><i>" + d.getDate() + "</i><small>" +
+        (open ? (free ? free + " free" : "full") : "closed") + "</small>";
+      (function (k) {
+        b.onclick = function () {
+          state.date = k;
+          state.start = null;
+          renderDays();
+          renderTimes();
+          go(3);
+        };
+      })(key);
+      box.appendChild(b);
+    }
+    $("bk-day-note").textContent = "Next " + CONFIG.daysAhead + " days. Greyed days are closed or fully booked.";
+  }
+
+  function renderTimes() {
+    var box = $("bk-times");
+    box.innerHTML = "";
+    if (!state.date || !state.service) return;
+    var slots = slotsFor(state.date, state.service.duration);
+
+    slots.forEach(function (start) {
+      var taken = isPast(state.date, start) || isTaken(state.date, start, state.service.duration);
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "bk-slot" + (state.start === start ? " sel" : "");
+      b.disabled = taken;
+      b.textContent = label(start);
+      b.onclick = function () {
+        state.start = start;
+        renderTimes();
+        renderSummary();
+        go(4);
+      };
+      box.appendChild(b);
+    });
+
+    if (!slots.length) {
+      var p = document.createElement("p");
+      p.className = "bk-note";
+      p.textContent = "Closed that day. Pick another one.";
+      box.appendChild(p);
+    }
+  }
+
+  function renderSummary() {
+    var s = state.service;
+    var d = fromIso(state.date);
+    $("bk-summary").innerHTML =
+      "<b>" + s.name + "</b><br>" +
+      DAY_NAMES[d.getDay()] + " " + d.getDate() + " " + MONTH_NAMES[d.getMonth()] + " · " +
+      label(state.start) + " · " + s.duration + " min<br>" +
+      "<b>" + money(s.price) + "</b> · cash or card on the day";
+  }
+
+  function go(step) {
+    for (var i = 1; i <= 5; i++) {
+      $("bk-step-" + i).classList.toggle("on", i === step);
+    }
+    var items = $("bk-steps").children;
+    for (var j = 0; j < items.length; j++) {
+      items[j].className = j + 1 < step ? "done" : (j + 1 === step ? "on" : "");
+    }
+    $("bk-error").textContent = "";
+    if (step === 4) $("bk-error").textContent = "";
+  }
+
+  /* ---------- confirm ---------- */
+  function confirmBooking() {
+    var err = $("bk-error");
+    err.textContent = "";
+    var name = $("bk-name").value.trim();
+    var phone = $("bk-phone").value.trim();
+    var area = $("bk-area").value;
+    var notes = $("bk-notes").value.trim();
+
+    if (!name) { err.textContent = "Add your name."; return; }
+    if (phone.replace(/\D/g, "").length < 7) { err.textContent = "Add a phone number I can reach you on."; return; }
+    if (!area) { err.textContent = "Pick your area."; return; }
+
+    var s = state.service;
+    var end = state.start + s.duration;
+
+    // Re-check right before saving: the slot may have gone while this form was open.
+    if (isPast(state.date, state.start) || isTaken(state.date, state.start, s.duration)) {
+      err.textContent = "That slot just went. Pick another time.";
+      renderTimes();
+      go(3);
+      return;
+    }
+
+    var list = readBookings();
+    var ref = "AB-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    list.push({
+      ref: ref, date: state.date, start: state.start, end: end,
+      service: s.name, price: s.price,
+      name: name, phone: phone, area: area, notes: notes,
+      created: new Date().toISOString()
+    });
+    writeBookings(list);
+
+    var d = fromIso(state.date);
+    $("bk-ref").textContent = ref;
+    $("bk-done-detail").textContent =
+      s.name + " · " + DAY_NAMES[d.getDay()] + " " + d.getDate() + " " + MONTH_NAMES[d.getMonth()] +
+      " at " + label(state.start) + " · " + area;
+    go(5);
+  }
+
+  /* ---------- wiring ---------- */
+  var areaSelect = $("bk-area");
+  CONFIG.areas.forEach(function (a) {
+    var o = document.createElement("option");
+    o.value = a;
+    o.textContent = a;
+    areaSelect.appendChild(o);
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-back]"), function (btn) {
+    btn.onclick = function () { go(parseInt(btn.getAttribute("data-back"), 10)); };
+  });
+
+  $("bk-confirm").onclick = confirmBooking;
+
+  $("bk-again").onclick = function () {
+    state = { service: null, date: null, start: null };
+    $("bk-name").value = "";
+    $("bk-phone").value = "";
+    $("bk-notes").value = "";
+    areaSelect.value = "";
+    renderServices();
+    go(1);
+  };
+
+  // Keep other open tabs honest: if someone books elsewhere, re-check this one.
+  window.addEventListener("storage", function (e) {
+    if (e.key !== CONFIG.storageKey) return;
+    if (state.date) renderTimes();
+    if (state.date) renderDays();
+  });
+
+  renderServices();
+  go(1);
+})();
+</script>
+</body>
+</html>
