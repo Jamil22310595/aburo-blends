@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABURO BLENDS | Admin Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+    }
+
+    h1 {
+      color: #c49a55;
+    }
+
+    button {
+      padding: 12px 18px;
+      background: #c49a55;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .booking {
+      background: #222;
+      border: 1px solid #555;
+      padding: 18px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+
+    #message {
+      color: #c49a55;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>ABURO BLENDS</h1>
+  <h2>Admin Dashboard</h2>
+
+  <button id="logout">LOG OUT</button>
+
+  <p id="message">Loading bookings...</p>
+  <div id="bookings"></div>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://eyhrygjopzzqgykekpom.supabase.co",
+      "sb_publishable_hyDuqX_OCRaDjsGis-cXxg_sXmA0zzI"
+    );
+
+    async function loadBookings() {
+      const message = document.getElementById("message");
+      const bookingsBox = document.getElementById("bookings");
+
+      const { data: sessionData, error: sessionError } =
+        await supabaseClient.auth.getSession();
+
+      const session = sessionData?.session;
+
+      if (sessionError || !session) {
+        window.location.href = "admin.html";
+        return;
+      }
+
+      message.textContent = "Loading bookings...";
+
+      const { data, error } = await supabaseClient.functions.invoke(
+        "admin-bookings",
+        {
+          headers: {
+            Authorization: "Bearer " + session.access_token
+          }
+        }
+      );
+
+      if (error || data?.error) {
+        message.textContent = data?.error || error.message;
+        return;
+      }
+
+      const bookings = data.bookings || [];
+
+      if (bookings.length === 0) {
+        message.textContent = "No bookings yet.";
+        return;
+      }
+
+      message.textContent = bookings.length + " booking(s) found.";
+
+      bookingsBox.innerHTML = "";
+
+      bookings.forEach(booking => {
+        const item = document.createElement("div");
+        item.className = "booking";
+
+        item.innerHTML = `
+          <h3>${booking.customer_name}</h3>
+          <p><strong>Phone:</strong> ${booking.customer_phone}</p>
+          <p><strong>Service:</strong> ${booking.service}</p>
+          <p><strong>Price:</strong> ₦${booking.price}</p>
+          <p><strong>Date:</strong> ${booking.booking_date}</p>
+          <p><strong>Time:</strong> ${booking.start_time}</p>
+          <p><strong>Area:</strong> ${booking.area || "Not provided"}</p>
+          <p><strong>Notes:</strong> ${booking.notes || "None"}</p>
+          <p><strong>Reference:</strong> ${booking.booking_ref}</p>
+        `;
+
+        bookingsBox.appendChild(item);
+      });
+    }
+
+    document.getElementById("logout").onclick = async function () {
+      await supabaseClient.auth.signOut();
+      window.location.href = "admin.html";
+    };
+
+    loadBookings();
+  </script>
+
+</body>
+</html>
