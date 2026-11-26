@@ -161,9 +161,7 @@ body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helveti
 </style>
 </head>
 <body>
-    <div class="demo">
-  <p>Preview — this is the strip</p>
-</div>
+   
 <main>
 <section class="hero wrap">
   <div>
@@ -502,7 +500,7 @@ async function loadBookings(dateStr) {
       "<b>" + s.name + "</b><br>" +
       DAY_NAMES[d.getDay()] + " " + d.getDate() + " " + MONTH_NAMES[d.getMonth()] + " · " +
       label(state.start) + " · " + s.duration + " min<br>" +
-      "<b>" + money(s.price) + "</b> · cash or card on the day";
+      "<b>" + money(s.price) + "</b> · CASH PAYMENT ONLY — PAY IN PERSON ON THE DAY";
   }
 
   function go(step) {
